@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 android {
@@ -88,4 +90,11 @@ dependencies {
 
     //CameraView
     implementation(libs.cameraview)
+
+    //Location Service
+    implementation(libs.play.services.location)
+
+    //Glide
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
 }

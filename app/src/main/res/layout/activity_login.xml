@@ -82,17 +82,17 @@
 
                 </FrameLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"
-                    android:backgroundTint="@color/colorAccent"
                     android:text="Login"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_12ssp"
+                    app:backgroundTint="@color/colorAccent" />
 
             </LinearLayout>
 
@@ -104,8 +104,8 @@
             android:layout_height="0dp"
             android:background="@color/color_black_transparent"
             android:gravity="center"
-            android:visibility="gone"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PrakaJakarta</string>
+    <string name="first_question_text">Apakah anda mengenal calon gubernur DKI Jakarta 2024 Pramono Anung dan Rano Karno? </string>
+    <string name="second_question_text">Apakah anda akan memilih calon gubernur DKI Jakarta 2024 Pramono Anung dan Rano Karno?</string>
 </resources>

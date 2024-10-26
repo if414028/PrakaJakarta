@@ -1,12 +1,16 @@
 package com.indigital.prakajakarta.login
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -28,12 +32,16 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
+    private val CAMERA_PERMISSION_CODE = 100
+    private val LOCATION_PERMISSION_CODE = 101
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
         setupLayout()
+        requestPermissions()
     }
 
     private fun setupLayout() {
@@ -129,5 +137,49 @@ class LoginActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
+    }
+
+    private fun requestPermissions() {
+        val permissionsToRequest = mutableListOf<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.CAMERA)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            requestPermissionLauncher.launch(permissionsToRequest.toTypedArray())
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        permissions.entries.forEach { permission ->
+            when (permission.key) {
+                Manifest.permission.CAMERA -> {
+                    if (permission.value) {
+                        Toast.makeText(this, "Izin kamera diberikan", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Izin kamera ditolak", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                Manifest.permission.ACCESS_FINE_LOCATION -> {
+                    if (permission.value) {
+                        Toast.makeText(this, "Izin lokasi diberikan", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Izin lokasi ditolak", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 }

@@ -29,6 +29,8 @@ import com.indigital.prakajakarta.databinding.ItemReportBinding
 import com.indigital.prakajakarta.login.LoginActivity
 import com.indigital.prakajakarta.network.PrakaJakartaAPI
 import com.indigital.prakajakarta.network.api.ApiPostList
+import com.indigital.prakajakarta.survey.HouseOwnerInformationActivity
+import com.indigital.prakajakarta.survey.ReviewSurveyActivity
 import com.indigital.prakajakarta.ui.theme.PrakaJakartaTheme
 import com.indigital.prakajakarta.util.SimpleRecyclerAdapter
 import retrofit2.Call
@@ -50,6 +52,11 @@ class MainActivity : ComponentActivity() {
 
         setupRecyclerView()
         getReportList()
+
+        binding.btnCreateSurvey.setOnClickListener {
+            val intent = Intent(applicationContext, HouseOwnerInformationActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {

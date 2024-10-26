@@ -28,9 +28,22 @@
             android:elevation="@dimen/_2sdp"
             android:src="@drawable/ic_camera"
             app:backgroundTint="@color/colorPrimary"
-            app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/colorWhite" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_rotate_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_48sdp"
+            android:adjustViewBounds="true"
+            android:elevation="@dimen/_2sdp"
+            android:src="@drawable/ic_flip_camera"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_image_capture"
             app:layout_constraintStart_toStartOf="parent"
             app:tint="@color/colorWhite" />
 

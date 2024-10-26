@@ -20,6 +20,8 @@ sdp = "1.1.0" # Versi untuk sdp-android
 ssp = "1.1.0" # Versi untuk ssp-android
 swipeRefreshLayout = "1.2.0-alpha01"
 cameraview = "2.7.2"
+playServicesLocation = "21.0.1"
+glide = "4.15.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +54,11 @@ ssp-android = { group = "com.intuit.ssp", name = "ssp-android", version.ref = "s
 
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swipeRefreshLayout" }
 cameraview = { group = "com.otaliastudios", name = "cameraview", version.ref = "cameraview" }
+
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
