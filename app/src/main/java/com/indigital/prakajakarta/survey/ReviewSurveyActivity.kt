@@ -99,6 +99,8 @@ class ReviewSurveyActivity : AppCompatActivity() {
 
                 when (code) {
                     "200" -> {
+                        val surveyCount = PrefManager.getTodaySurveyCount(applicationContext)
+                        PrefManager.saveSurveyCount(applicationContext, surveyCount + 1)
                         imageUrl = response.body()?.result
                         createPost()
                     }

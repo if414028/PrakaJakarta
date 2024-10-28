@@ -1,8 +1,12 @@
 package com.indigital.prakajakarta.data.pref
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import com.indigital.prakajakarta.data.model.Token
 import com.indigital.prakajakarta.data.model.pref.PostData
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PrefManager(private val context: Context) {
 
@@ -20,7 +24,7 @@ class PrefManager(private val context: Context) {
         private const val TOKENKEY = "TokenKey"
 
         fun setToken(context: Context, tokenData: Token) {
-            val sharedPreferences = context.getSharedPreferences(MyPREF, Context.MODE_PRIVATE)
+            val sharedPreferences = context.getSharedPreferences(MyPREF, MODE_PRIVATE)
             val editor = sharedPreferences.edit()
 
             editor.putString(TOKENKEY, tokenData.token)
@@ -29,11 +33,37 @@ class PrefManager(private val context: Context) {
 
         fun getTokenData(context: Context): Token {
             val tokenData = Token()
-            val sharedPreferences = context.getSharedPreferences(MyPREF, Context.MODE_PRIVATE)
+            val sharedPreferences = context.getSharedPreferences(MyPREF, MODE_PRIVATE)
 
             tokenData.token = sharedPreferences.getString(TOKENKEY, "") ?: ""
 
             return tokenData
+        }
+
+        fun getTodaySurveyCount(context: Context): Int {
+            val sharedPreferences = context.getSharedPreferences("SurveyPrefs", MODE_PRIVATE)
+            val today = getCurrentDate()
+            val savedDate = sharedPreferences.getString("lastSurveyDate", "")
+
+            return if (today == savedDate) {
+                sharedPreferences.getInt("surveyCount", 0)
+            } else {
+                0 // Reset jika tanggalnya sudah berbeda
+            }
+        }
+
+        // Fungsi untuk menyimpan jumlah survei yang baru dibuat
+        fun saveSurveyCount(context: Context, count: Int) {
+            val sharedPreferences = context.getSharedPreferences("SurveyPrefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putInt("surveyCount", count)
+            editor.putString("lastSurveyDate", getCurrentDate()) // Simpan tanggal terbaru
+            editor.apply()
+        }
+
+        private fun getCurrentDate(): String {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            return dateFormat.format(Date())
         }
     }
 }

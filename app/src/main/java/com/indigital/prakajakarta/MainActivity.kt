@@ -7,15 +7,6 @@ import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,8 +22,6 @@ import com.indigital.prakajakarta.network.PrakaJakartaAPI
 import com.indigital.prakajakarta.network.api.ApiPostList
 import com.indigital.prakajakarta.survey.DetailSurveyActivity
 import com.indigital.prakajakarta.survey.HouseOwnerInformationActivity
-import com.indigital.prakajakarta.survey.ReviewSurveyActivity
-import com.indigital.prakajakarta.ui.theme.PrakaJakartaTheme
 import com.indigital.prakajakarta.util.SimpleRecyclerAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,8 +48,18 @@ class MainActivity : ComponentActivity() {
         setupRecyclerView()
 
         binding.btnCreateSurvey.setOnClickListener {
-            val intent = Intent(applicationContext, HouseOwnerInformationActivity::class.java)
-            startActivity(intent)
+            val surveyCount = PrefManager.getTodaySurveyCount(applicationContext)
+
+            if (surveyCount < 20) {
+                val intent = Intent(applicationContext, HouseOwnerInformationActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Anda hanya bisa membuat survei 20 kali sehari.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener { getReportList() }
