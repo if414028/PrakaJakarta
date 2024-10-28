@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.indigital.prakajakarta.MainActivity
 import com.indigital.prakajakarta.R
+import com.indigital.prakajakarta.data.model.post.create.CreatePostRequest
 import com.indigital.prakajakarta.data.model.post.create.ImageUpload
 import com.indigital.prakajakarta.data.model.post.create.PostDataResult
 import com.indigital.prakajakarta.data.model.pref.PostData
@@ -151,18 +152,22 @@ class ReviewSurveyActivity : AppCompatActivity() {
         val token = tokenModel.token ?: ""
 
         val service = PrakaJakartaAPI.createService(ApiCreatePost::class.java)
+        val request = CreatePostRequest(
+            name = postData.houseOwner!!,
+            address1 = postData.address!!,
+            pekerjaan = postData.work!!,
+            usia = postData.age!!,
+            jenisKelamin = postData.sex!!,
+            lat = postData.lat.toString(),
+            lng = postData.lng.toString(),
+            images = imageUrl!!,
+            answer1 = postData.firstAnswer!!,
+            answer2 = postData.secondAnswer!!
+        )
+
         val call = service.createPost(
             token,
-            postData.houseOwner!!,
-            postData.address!!,
-            postData.work!!,
-            postData.age!!,
-            postData.sex!!,
-            postData.lat.toString(),
-            postData.lng.toString(),
-            imageUrl!!,
-            postData.firstAnswer!!,
-            postData.secondAnswer!!
+            request
         )
 
         call.enqueue(object : Callback<PostDataResult> {

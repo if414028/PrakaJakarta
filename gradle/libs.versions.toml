@@ -22,6 +22,7 @@ swipeRefreshLayout = "1.2.0-alpha01"
 cameraview = "2.7.2"
 playServicesLocation = "21.0.1"
 glide = "4.15.0"
+playServicesMaps = "18.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,8 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

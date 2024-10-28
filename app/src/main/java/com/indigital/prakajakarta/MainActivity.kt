@@ -29,6 +29,7 @@ import com.indigital.prakajakarta.databinding.ItemReportBinding
 import com.indigital.prakajakarta.login.LoginActivity
 import com.indigital.prakajakarta.network.PrakaJakartaAPI
 import com.indigital.prakajakarta.network.api.ApiPostList
+import com.indigital.prakajakarta.survey.DetailSurveyActivity
 import com.indigital.prakajakarta.survey.HouseOwnerInformationActivity
 import com.indigital.prakajakarta.survey.ReviewSurveyActivity
 import com.indigital.prakajakarta.ui.theme.PrakaJakartaTheme
@@ -50,13 +51,19 @@ class MainActivity : ComponentActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
 
-        setupRecyclerView()
+        setupLayout()
         getReportList()
+    }
+
+    private fun setupLayout() {
+        setupRecyclerView()
 
         binding.btnCreateSurvey.setOnClickListener {
             val intent = Intent(applicationContext, HouseOwnerInformationActivity::class.java)
             startActivity(intent)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener { getReportList() }
     }
 
     override fun onBackPressed() {
@@ -161,7 +168,9 @@ class MainActivity : ComponentActivity() {
             itemBinding.tvItemDate.text = dateResult
 
             itemBinding.root.setOnClickListener {
-                //click
+                val intent = Intent(applicationContext, DetailSurveyActivity::class.java)
+                intent.putExtra(DetailSurveyActivity.ARG_SURVEY_ID, item.id)
+                startActivity(intent)
             }
         }
         binding.rvSurvey.adapter = adapter
