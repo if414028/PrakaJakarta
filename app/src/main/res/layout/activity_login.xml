@@ -43,6 +43,8 @@
                     android:background="@drawable/et_grey_rounded"
                     android:hint="Username"
                     android:inputType="text"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/greyAAA"
                     android:paddingStart="@dimen/_16sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingEnd="@dimen/_16sdp"

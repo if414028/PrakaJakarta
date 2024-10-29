@@ -5,12 +5,8 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +22,6 @@ import com.indigital.prakajakarta.login.LoginActivity
 import com.indigital.prakajakarta.network.PrakaJakartaAPI
 import com.indigital.prakajakarta.network.api.ApiCreatePost
 import com.indigital.prakajakarta.network.api.ApiImageUpload
-import com.indigital.prakajakarta.survey.SecondQuestionActivity.Companion
 import com.indigital.prakajakarta.util.ResultHolder
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -95,12 +90,9 @@ class ReviewSurveyActivity : AppCompatActivity() {
         call.enqueue(object : Callback<ImageUpload> {
             override fun onResponse(call: Call<ImageUpload>, response: Response<ImageUpload>) {
                 val code = response.code().toString()
-                Toast.makeText(this@ReviewSurveyActivity, "code: $code", Toast.LENGTH_SHORT).show()
 
                 when (code) {
                     "200" -> {
-                        val surveyCount = PrefManager.getTodaySurveyCount(applicationContext)
-                        PrefManager.saveSurveyCount(applicationContext, surveyCount + 1)
                         imageUrl = response.body()?.result
                         createPost()
                     }

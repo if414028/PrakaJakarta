@@ -99,18 +99,7 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
 
         binding.btnCreateSurvey.setOnClickListener {
-            val surveyCount = PrefManager.getTodaySurveyCount(applicationContext)
-
-            if (surveyCount < 20) {
-                val intent = Intent(applicationContext, HouseOwnerInformationActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(
-                    this,
-                    "Anda hanya bisa membuat survei 20 kali sehari.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            createSurvey()
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener { getReportList() }
@@ -120,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
             finishAffinity()
-            exitProcess(0) // use exitProcess from kotlin.system package to terminate the app
+            exitProcess(0)
         }
 
         this.doubleBackToExitPressedOnce = true
@@ -196,6 +185,77 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(
                     binding.root,
                     "Sedang ada gangguan server, silahkan coba lagi.",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        })
+    }
+
+    private fun createSurvey() {
+        binding.progress.visibility = View.VISIBLE
+        val tokenModel = PrefManager.getTokenData(applicationContext)
+        val token = tokenModel.token ?: ""
+
+        val service = PrakaJakartaAPI.createService(ApiPostList::class.java)
+        val call = service.getPostFiltered(token, 30, "id", "DESC", "Day")
+        call.enqueue(object : Callback<ReportDataResult> {
+            override fun onResponse(
+                call: Call<ReportDataResult>,
+                response: Response<ReportDataResult>
+            ) {
+                val code = response.code().toString()
+
+                when (code) {
+                    "200" -> {
+                        binding.progress.visibility = View.GONE
+                        val result = response.body()
+
+                        if (result?.data != null && result.data!!.count < 20) {
+                            val intent = Intent(
+                                applicationContext,
+                                HouseOwnerInformationActivity::class.java
+                            )
+                            startActivity(intent)
+                        } else {
+                            Snackbar.make(
+                                binding.root,
+                                "Anda hanya bisa membuat survei 20 kali sehari.",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
+                    "401" -> {
+                        binding.progress.visibility = View.GONE
+                        val intent = Intent(applicationContext, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    "400" -> {
+                        binding.progress.visibility = View.GONE
+                        Snackbar.make(
+                            binding.root,
+                            "Username atau password tidak boleh kosong, silahkan coba lagi.",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    else -> {
+                        binding.progress.visibility = View.GONE
+                        Snackbar.make(
+                            binding.root,
+                            "Sedang ada gangguan server, silahkan coba lagi.",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ReportDataResult>, t: Throwable) {
+                binding.progress.visibility = View.GONE
+                Snackbar.make(
+                    binding.root,
+                    "Anda tidak terhubung dengan internet, Silahkan coba lagi",
                     Snackbar.LENGTH_LONG
                 ).show()
             }

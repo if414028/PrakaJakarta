@@ -12,7 +12,7 @@
             android:id="@+id/camera"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:cameraFacing="front"
+            app:cameraFacing="back"
             app:cameraFlash="auto"
             app:cameraPictureFormat="jpeg"
             app:layout_constraintBottom_toTopOf="@id/horizon_center_line"
