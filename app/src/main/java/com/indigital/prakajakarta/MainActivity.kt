@@ -4,14 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.indigital.prakajakarta.data.model.Token
+import com.indigital.prakajakarta.data.model.post.create.CreatePostRequest
 import com.indigital.prakajakarta.data.model.post.list.Report
 import com.indigital.prakajakarta.data.model.post.list.ReportDataResult
 import com.indigital.prakajakarta.data.pref.PrefManager
@@ -28,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.system.exitProcess
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: SimpleRecyclerAdapter<Report>
@@ -39,9 +44,55 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
+        binding.toolbar.overflowIcon?.setTint(ContextCompat.getColor(this, R.color.colorWhite))
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "Rekap Laporan"
 
         setupLayout()
         getReportList()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            R.id.item1 -> {
+                getReportList()
+                return true
+            }
+
+            R.id.item2 -> {
+                getFilteredReportList("Day")
+                return true
+            }
+
+            R.id.item3 -> {
+                getFilteredReportList("Week")
+                return true
+            }
+
+            R.id.item4 -> {
+                getFilteredReportList("Month")
+                return true
+            }
+
+            R.id.item5 -> {
+                val tokenObject = Token().apply { token = "" }
+                PrefManager.setToken(applicationContext, tokenObject)
+                finish()
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+        }
+        return false
+
     }
 
     private fun setupLayout() {
@@ -150,6 +201,74 @@ class MainActivity : ComponentActivity() {
             }
         })
     }
+
+    private fun getFilteredReportList(filter: String) {
+        binding.progress.visibility = View.VISIBLE
+        val tokenModel = PrefManager.getTokenData(applicationContext)
+        val token = tokenModel.token ?: ""
+
+        val service = PrakaJakartaAPI.createService(ApiPostList::class.java)
+        val call = service.getPostFiltered(token, 30, "id", "DESC", filter)
+        call.enqueue(object : Callback<ReportDataResult> {
+            override fun onResponse(
+                call: Call<ReportDataResult>,
+                response: Response<ReportDataResult>
+            ) {
+                val code = response.code().toString()
+
+                when (code) {
+                    "200" -> {
+                        binding.progress.visibility = View.GONE
+                        val result = response.body()
+
+                        if (result?.data?.rows.isNullOrEmpty()) {
+                            binding.lyEmptyData.visibility = View.VISIBLE
+                            binding.rvSurvey.visibility = View.GONE
+                        } else {
+                            binding.lyEmptyData.visibility = View.GONE
+                            binding.rvSurvey.visibility = View.VISIBLE
+                            adapter.mainData = result?.data?.rows ?: listOf()
+                        }
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
+
+                    "401" -> {
+                        binding.progress.visibility = View.GONE
+                        val intent = Intent(applicationContext, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    "400" -> {
+                        binding.progress.visibility = View.GONE
+                        Snackbar.make(
+                            binding.root,
+                            "Username atau password tidak boleh kosong, silahkan coba lagi.",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+
+                    else -> {
+                        binding.progress.visibility = View.GONE
+                        Snackbar.make(
+                            binding.root,
+                            "Sedang ada gangguan server, silahkan coba lagi.",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ReportDataResult>, t: Throwable) {
+                binding.progress.visibility = View.GONE
+                Snackbar.make(
+                    binding.root,
+                    "Anda tidak terhubung dengan internet, Silahkan coba lagi",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        })
+    }
+
 
     private fun setupRecyclerView() {
         binding.rvSurvey.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@drawable/praka_bg_square" />
-    <foreground android:drawable="@drawable/ic_praka_logo_square" />
-    <monochrome android:drawable="@drawable/ic_launcher_foreground" />
+    <foreground android:drawable="@drawable/ic_praka_launcher" />
+    <monochrome android:drawable="@drawable/ic_praka_launcher" />
 </adaptive-icon>

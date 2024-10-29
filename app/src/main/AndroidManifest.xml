@@ -40,7 +40,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDsDt3FZr5x5_QoXoqROD4oad8gOhorTyE" />
 
-
         <activity
             android:name=".survey.DetailSurveyActivity"
             android:exported="false" />
