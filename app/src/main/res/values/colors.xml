@@ -12,4 +12,6 @@
     <color name="colorBackground">#F3FBFA</color>
     <color name="color_black_transparent">#80000000</color>
     <color name="greyAAA">#AAAAAA</color>
+    <color name="text_grey">#AAAAAA</color>
+    <color name="text_black">#2A2C30</color>
 </resources>

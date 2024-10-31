@@ -84,6 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{model.houseOwner}"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="Budi" />
 
@@ -100,6 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{model.sex}"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="Laki - laki" />
 
@@ -116,6 +118,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{model.age + ` Tahun`}"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="37 Tahun" />
 
@@ -132,6 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{model.work}"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="Karyawan" />
 
@@ -148,6 +152,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{model.address}"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="Jl. Kesehatan 1" />
 
@@ -164,6 +169,7 @@
                         android:id="@+id/tv_first_answer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="Ya" />
 
@@ -179,6 +185,7 @@
                         android:id="@+id/tv_second_asnwer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/colorText"
                         android:textSize="@dimen/_12ssp"
                         tools:text="Ya" />
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/praka_bg"
@@ -33,7 +34,7 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/praka_logo_sqare" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/etUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -43,19 +44,19 @@
                     android:background="@drawable/et_grey_rounded"
                     android:hint="Username"
                     android:inputType="text"
-                    android:textColor="@color/colorText"
-                    android:textColorHint="@color/greyAAA"
                     android:paddingStart="@dimen/_16sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingEnd="@dimen/_16sdp"
                     android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/greyAAA"
                     android:textSize="@dimen/_12ssp" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <EditText
                         android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -69,6 +70,8 @@
                         android:paddingTop="@dimen/_8sdp"
                         android:paddingEnd="@dimen/_16sdp"
                         android:paddingBottom="@dimen/_8sdp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/greyAAA"
                         android:textSize="@dimen/_12ssp" />
 
                     <ImageView

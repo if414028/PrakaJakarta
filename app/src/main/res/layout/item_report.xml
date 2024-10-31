@@ -7,7 +7,6 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
-        app:cardBackgroundColor="@color/colorWhite"
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="@dimen/_4sdp">
 
@@ -37,6 +36,7 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:text="Nama pemilik rumah:"
+                    android:textColor="@color/text_grey"
                     android:textSize="@dimen/_10ssp" />
 
 
@@ -48,6 +48,7 @@
                     android:layout_marginRight="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:text="Bpk. Budi"
+                    android:textColor="@color/text_black"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold" />
 
@@ -61,6 +62,7 @@
                     android:gravity="end"
                     android:text="tanggal"
                     android:textAlignment="viewEnd"
+                    android:textColor="@color/text_grey"
                     android:textSize="@dimen/_10ssp" />
 
             </LinearLayout>

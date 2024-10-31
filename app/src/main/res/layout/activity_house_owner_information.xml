@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Informasi Pemilik Rumah"
+                    android:textColor="@color/colorText"
                     android:textSize="@dimen/_12ssp" />
 
                 <EditText
