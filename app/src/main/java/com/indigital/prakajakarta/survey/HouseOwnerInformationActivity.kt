@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationAvailability
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -77,6 +78,11 @@ class HouseOwnerInformationActivity : AppCompatActivity() {
         binding.etUsia.addTextChangedListener { validateForm() }
 
         binding.btnNext.setOnClickListener { submit() }
+
+        binding.btnGetLocation.setOnClickListener {
+            binding.isLoading = true
+            getLocation()
+        }
     }
 
     private fun checkLocationPermission(): Boolean {
@@ -115,9 +121,29 @@ class HouseOwnerInformationActivity : AppCompatActivity() {
 
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
+                    Toast.makeText(
+                        this@HouseOwnerInformationActivity,
+                        "Berhasil mendapatkan lokasi",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.isLoading = false
+
                     for (location in locationResult.locations) {
                         lat = location.latitude
                         lng = location.longitude
+                        binding.tvCoordinate.text = "Lat: $lat Lng: $lng"
+                    }
+                }
+
+                override fun onLocationAvailability(locationAvailability: LocationAvailability) {
+                    if (!locationAvailability.isLocationAvailable) {
+                        binding.isLoading = false
+                        Toast.makeText(
+                            this@HouseOwnerInformationActivity,
+                            "Lokasi tidak tersedia",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.progress.visibility = View.GONE
                     }
                 }
             }
@@ -128,6 +154,7 @@ class HouseOwnerInformationActivity : AppCompatActivity() {
                 mainLooper
             )
         } else {
+            binding.isLoading = false
             Toast.makeText(this, "Izin lokasi tidak diberikan", Toast.LENGTH_SHORT).show()
         }
     }
@@ -146,23 +173,31 @@ class HouseOwnerInformationActivity : AppCompatActivity() {
     }
 
     private fun submit() {
-        val houseOwner = binding.etHouseOwner.text.toString()
-        val work = binding.etPekerjaan.text.toString()
-        val address = binding.etAlamat.text.toString()
-        val age = binding.etUsia.text.toString()
+        if (lat != 0.0 && lng != 0.0) {
+            val houseOwner = binding.etHouseOwner.text.toString()
+            val work = binding.etPekerjaan.text.toString()
+            val address = binding.etAlamat.text.toString()
+            val age = binding.etUsia.text.toString()
 
-        val postData = PostData()
-        postData.houseOwner = houseOwner
-        postData.lat = lat
-        postData.lng = lng
-        postData.work = work
-        postData.address = address
-        postData.age = age
-        postData.sex = sex
+            val postData = PostData()
+            postData.houseOwner = houseOwner
+            postData.lat = lat
+            postData.lng = lng
+            postData.work = work
+            postData.address = address
+            postData.age = age
+            postData.sex = sex
 
-        val intent = Intent(applicationContext, FirstQuestionActivity::class.java)
-        intent.putExtra(FirstQuestionActivity.ARG_POST_DATA, postData)
-        startActivity(intent)
+            val intent = Intent(applicationContext, FirstQuestionActivity::class.java)
+            intent.putExtra(FirstQuestionActivity.ARG_POST_DATA, postData)
+            startActivity(intent)
+        } else {
+            Toast.makeText(
+                this,
+                "Gagal mendapatkan lokasi, klik ulang tombol dapatkan lokasi",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
     }
 

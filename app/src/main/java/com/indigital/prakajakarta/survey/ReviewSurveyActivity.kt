@@ -105,7 +105,7 @@ class ReviewSurveyActivity : AppCompatActivity() {
                     else -> {
                         Snackbar.make(
                             binding.root,
-                            "Sedang ada gangguan server, silahkan coba lagi",
+                            code + ": " + response.message(),
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
@@ -195,7 +195,7 @@ class ReviewSurveyActivity : AppCompatActivity() {
                     else -> {
                         Snackbar.make(
                             binding.root,
-                            "Sedang ada gangguan server, silahkan coba lagi",
+                            code + ": " + response.message(),
                             Snackbar.LENGTH_LONG
                         ).show()
                     }

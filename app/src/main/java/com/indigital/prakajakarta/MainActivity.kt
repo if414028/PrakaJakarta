@@ -209,17 +209,26 @@ class MainActivity : AppCompatActivity() {
                     "200" -> {
                         binding.progress.visibility = View.GONE
                         val result = response.body()
+                        val data = result?.data
 
-                        if (result?.data != null && result.data!!.count < 20) {
-                            val intent = Intent(
-                                applicationContext,
-                                HouseOwnerInformationActivity::class.java
-                            )
-                            startActivity(intent)
+                        if (data != null) {
+                            if (data.count < 20) {
+                                val intent = Intent(
+                                    applicationContext,
+                                    HouseOwnerInformationActivity::class.java
+                                )
+                                startActivity(intent)
+                            } else {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Anda hanya bisa membuat survei 20 kali sehari.",
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            }
                         } else {
                             Snackbar.make(
                                 binding.root,
-                                "Anda hanya bisa membuat survei 20 kali sehari.",
+                                "Data survei tidak tersedia.",
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
