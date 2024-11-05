@@ -16,8 +16,8 @@ android {
         applicationId = "com.indigital.prakajakarta"
         minSdk = 21
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 1001
+        versionName = "1.0.0.1"
 
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
